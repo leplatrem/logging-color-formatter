@@ -1,5 +1,7 @@
+import logging
 import re
 import unittest
+from io import StringIO
 
 import mock
 
@@ -67,3 +69,31 @@ class ColorFormatterTest(unittest.TestCase):
         record.value = '\u2014'
         value = self.formatter.format(record)
         self.assertIn('\u2014', value)
+
+    def test_extra_event_infos_is_rendered_as_key_values(self):
+        record = mock.MagicMock()
+        record.msg = '%r login.'
+        record.args = ('bob',)
+        value = self.formatter.format(record)
+        self.assertIn("'bob' login.", value)
+
+
+class LoggerTest(unittest.TestCase):
+    def setUp(self):
+        self.logger = logging.getLogger("test.module")
+        self.logger.setLevel(logging.DEBUG)
+        formatter = ColorFormatter()
+        self.stream = StringIO()
+        handler = logging.StreamHandler(self.stream)
+        handler.setFormatter(formatter)
+        self.logger.addHandler(handler)
+
+    def test_advanced_logging_message(self):
+        userid = 'bob'
+        resource = '/file'
+
+        self.logger.info("%r authorized on {resource}", userid,
+                         extra=dict(userid=userid, resource=resource))
+
+        self.assertEqual(strip_ansi(self.stream.getvalue()),
+            "'bob' authorized on /file resource=/file userid=bob\n")

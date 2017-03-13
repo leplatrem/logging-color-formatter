@@ -50,6 +50,24 @@ Usage
     class = logging_color_formatter.ColorFormatter
 
 
+Changes
+-------
+
+
+1.0.1
+'''''
+
+- Fix missing interpolation on strings using logger arguments
+
+
+Run tests
+---------
+
+::
+
+    python setup.py test
+
+
 Licence
 -------
 

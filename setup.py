@@ -17,6 +17,7 @@ setuptools.setup(
 
     install_requires=["colorama"],
     tests_require=["mock"],
+    test_suite="tests",
 
     keywords="logging",
     classifiers=[

@@ -37,8 +37,11 @@ class ColorFormatter(logging.Formatter):
         else:
             pattern = BRIGHT + '{event}' + RESET_ALL + ' {context}'
 
+        raw_msg = str(event_dict.pop('msg', '?')) % event_dict.pop('args', [])
+        msg_interpolated = raw_msg.format(**event_dict)
+
         output = {
-            'event': str(event_dict.pop('msg', '?')).format(**event_dict)
+            'event': msg_interpolated
         }
         for field in ['method', 'path', 'code', 't']:
             output[field] = decode_value(event_dict.pop(field, '?'))
