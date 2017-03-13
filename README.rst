@@ -56,7 +56,7 @@ Changes
 1.0.2
 '''''
 
-- Fix missing out of stacktraces on exceptions
+- Fix missing output of stacktraces on exceptions
 
 1.0.1
 '''''
