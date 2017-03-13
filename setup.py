@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="logging-color-formatter",
-    version='1.0.2',
+    version='1.0.3.dev0',
     url="https://github.com/leplatrem/logging-color-formatter",
 
     license='Apache License (2.0)',
