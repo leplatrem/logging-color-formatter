@@ -20,37 +20,35 @@ def strip_ansi(text):
 class ColorFormatterTest(unittest.TestCase):
     def setUp(self):
         self.formatter = ColorFormatter()
+        self.record = mock.MagicMock()
+        self.record.exc_info = self.record.stack_info = None
 
     def test_output_is_serialized_as_string(self):
-        value = self.formatter.format(mock.MagicMock())
+        value = self.formatter.format(self.record)
         self.assertIsInstance(value, str)
 
     def test_output_is_simple_if_no_request_is_bound(self):
-        value = self.formatter.format(mock.MagicMock())
+        value = self.formatter.format(self.record)
         self.assertNotIn('? ms', value)
 
     def test_values_are_defaulted_to_question_mark(self):
-        record = mock.MagicMock()
-        record.path = '/'
-        value = self.formatter.format(record)
+        self.record.path = '/'
+        value = self.formatter.format(self.record)
         self.assertIn('? ms', value)
 
     def test_querystring_is_rendered_as_string(self):
-        record = mock.MagicMock()
-        record.path = '/'
-        record.querystring = {'param': 'val'}
-        value = self.formatter.format(record)
+        self.record.path = '/'
+        self.record.querystring = {'param': 'val'}
+        value = self.formatter.format(self.record)
         self.assertIn('/?param=val', value)
 
     def test_extra_event_infos_is_rendered_as_key_values(self):
-        record = mock.MagicMock()
-        record.nb_records = 5
-        value = self.formatter.format(record)
+        self.record.nb_records = 5
+        value = self.formatter.format(self.record)
         self.assertIn('nb_records=5', strip_ansi(value))
 
     def test_every_event_dict_entry_appears_in_log_message(self):
-        record = mock.MagicMock()
-        record.__dict__ = {
+        self.record.__dict__ = {
             'msg': 'Pouet',
             'method': 'GET',
             'path': '/v1/',
@@ -58,23 +56,23 @@ class ColorFormatterTest(unittest.TestCase):
             'code': 200,
             't': 32,
             'event': 'app.event',
-            'nb_records': 5
+            'nb_records': 5,
+            'exc_info': None,
+            'stack_info': None,
         }
-        value = self.formatter.format(record)
+        value = self.formatter.format(self.record)
         self.assertEqual(('"GET   /v1/?_sort=field" 200 (32 ms)'
                           ' Pouet event=app.event nb_records=5'), strip_ansi(value))
 
     def test_fields_values_support_unicode(self):
-        record = mock.MagicMock()
-        record.value = '\u2014'
-        value = self.formatter.format(record)
+        self.record.value = '\u2014'
+        value = self.formatter.format(self.record)
         self.assertIn('\u2014', value)
 
     def test_extra_event_infos_is_rendered_as_key_values(self):
-        record = mock.MagicMock()
-        record.msg = '%r login.'
-        record.args = ('bob',)
-        value = self.formatter.format(record)
+        self.record.msg = '%r login.'
+        self.record.args = ('bob',)
+        value = self.formatter.format(self.record)
         self.assertIn("'bob' login.", value)
 
 
@@ -97,3 +95,12 @@ class LoggerTest(unittest.TestCase):
 
         self.assertEqual(strip_ansi(self.stream.getvalue()),
             "'bob' authorized on /file resource=/file userid=bob\n")
+
+    def test_exception_formatting(self):
+        try:
+            1 / 0
+        except:
+            self.logger.exception("Oups.")
+        output = self.stream.getvalue()
+        self.assertIn("Oups. \n", strip_ansi(output))
+        self.assertIn("Traceback (most recent call last):", output)

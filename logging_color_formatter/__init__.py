@@ -60,4 +60,10 @@ class ColorFormatter(logging.Formatter):
         )
 
         log_msg = pattern.format_map(output)
+
+        if record.exc_info:
+            log_msg += "\n" + self.formatException(record.exc_info)
+        if record.stack_info:
+            log_msg += "\n" + self.formatStack(record.stack_info)
+
         return log_msg
