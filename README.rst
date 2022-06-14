@@ -53,6 +53,11 @@ Usage
 Changes
 -------
 
+1.0.3
+'''''
+
+- Publish wheels
+
 1.0.2
 '''''
 
