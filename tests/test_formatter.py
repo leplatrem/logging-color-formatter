@@ -1,9 +1,9 @@
 import logging
 import re
 import unittest
+from unittest import mock
 from io import StringIO
 
-import mock
 
 from logging_color_formatter import ColorFormatter
 

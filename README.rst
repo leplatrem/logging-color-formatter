@@ -1,13 +1,12 @@
 logging-color-formatter
 =======================
 
-.. image:: https://img.shields.io/pypi/v/logging-color-formatter.svg
-    :target: https://pypi.python.org/pypi/logging-color-formatter
-    :alt: Latest PyPI version
+.. image:: https://github.com/leplatrem/logging-color-formatter/actions/workflows/test.yml/badge.svg
+        :target: https://github.com/leplatrem/logging-color-formatter/actions
 
-.. image:: https://travis-ci.org/leplatrem/logging-color-formatter.png
-   :target: https://travis-ci.org/leplatrem/logging-color-formatter
-   :alt: Latest Travis CI build status
+.. image:: https://img.shields.io/pypi/v/logging-color-formatter.svg
+        :target: https://pypi.python.org/pypi/logging-color-formatter
+
 
 A colored logging formatter.
 
@@ -53,20 +52,7 @@ Usage
 Changes
 -------
 
-1.0.3
-'''''
-
-- Publish wheels
-
-1.0.2
-'''''
-
-- Fix missing output of stacktraces on exceptions
-
-1.0.1
-'''''
-
-- Fix missing interpolation on strings using logger arguments
+See [Github Releases](https://github.com/leplatrem/logging-color-formatter/releases)
 
 
 Run tests
