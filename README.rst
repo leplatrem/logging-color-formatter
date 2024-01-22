@@ -52,7 +52,7 @@ Usage
 Changes
 -------
 
-See [Github Releases](https://github.com/leplatrem/logging-color-formatter/releases)
+See `Github Releases <https://github.com/leplatrem/logging-color-formatter/releases>`_
 
 
 Run tests
