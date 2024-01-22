@@ -60,7 +60,7 @@ Run tests
 
 ::
 
-    python setup.py test
+    py.test
 
 
 Licence

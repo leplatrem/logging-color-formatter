@@ -17,6 +17,11 @@ dependencies = [
     "colorama",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+
 [project.urls]
 Repository = "https://github.com/leplatrem/logging-color-formatter"
 
